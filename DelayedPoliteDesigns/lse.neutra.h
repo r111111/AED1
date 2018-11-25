@@ -1,3 +1,5 @@
+#include "stdlib.h"
+#include "stdio.h"
 typedef struct lista TLista;
 typedef struct elemento TElemento;
 typedef int(*TComparador)(void*,void*);

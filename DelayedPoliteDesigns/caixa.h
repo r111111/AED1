@@ -1,3 +1,6 @@
+#include "stdlib.h"
+#include "stdio.h"
+#include "lse.neutra.h"
 typedef struct pdv TPdv;
 typedef struct AreaAtendimento TAreaAtendimento;
 void inserirPdv(TAreaAtendimento *area,TPdv *pdv);

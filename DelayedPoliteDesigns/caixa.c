@@ -1,7 +1,4 @@
-#include "stdlib.h"
-#include "stdio.h"
 #include "caixa.h"
-#include "lse.neutra.h"
 
 struct pdv{
   double tempoMedio,tempoMaximo;
@@ -52,8 +49,6 @@ void addTempos(TAreaAtendimento *a,double t,double x, double y, double z){
   a->y = y;
 }
 
-
-
 int pdvLivre(void *carga){
   TPdv *pdv = carga;
   if(pdv->livre){
@@ -66,4 +61,3 @@ int pdvLivre(void *carga){
 void* proxPdvLivre(TAreaAtendimento *caixa){
    return temNaLista(caixa->listaPdvs,&pdvLivre);
 }
-

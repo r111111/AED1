@@ -9,9 +9,11 @@ void preencherAreaAtendimento(TAreaAtendimento *area){
   int *faVelha,*faAtual;
   int i;
   double tempoMedio,x,y,z;
+  printf("holy shit");
   scanf("%d",&qntPdvsVelha);
   faVelha = malloc(sizeof(int)*qntPdvsVelha);
   for(i=0;i<qntPdvsVelha;i++){
+    printf("\nLendo pdv %d",i);
     scanf("%d",&faVelha[i]);
   }
   scanf("%d",&qntPdvsAtual);
@@ -43,7 +45,8 @@ void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa){
       int tempoDeChegada,tipoCliente,qntItens,tempoPagamento;
       scanf("%d%d%d%d",&tempoDeChegada,&qntItens,&tipoCliente,&tempoPagamento);
       TChegada *c= criarChegada(qntItens, tipoCliente, tempoPagamento);
-     // evento = criarEvento(tempoDeChegada, tipo,c);
+      //passarTempo();
+      evento = criarEvento(tempoDeChegada, tipo,c);
     }else if(tipo == 'S'){
       
    }else{
@@ -51,10 +54,8 @@ void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa){
     }
   scanf(" %c",&tipo);
   }
+  imprimirAgenda(agenda);
 }
-int main(void) {
-  TAgenda *agendadoDia = criarAgenda(01, 01, 01);
-  TAreaAtendimento *caixa = criarAreaAtendimento();
-  preencherAreaAtendimento(caixa);
-  lerEventos(agendadoDia,caixa);
+int main() {
+  printf("aaa");
 }

@@ -1,9 +1,4 @@
-#include "stdlib.h"
-#include"stdio.h"
 #include "agenda.h"
-#include "lse.neutra.h"
-#include "caixa.h"
-
 struct agenda{
   int dia,mes,ano;
   TLista *listaEventos;
@@ -16,7 +11,7 @@ struct evento{
 };
 
 struct chegada {
-  int nItens,tipoCliente,tempoPag;
+  int nItens,tipoChegada,tempoPag;
 };
 struct suspensao{
   int nPdv,duracao;
@@ -54,10 +49,10 @@ int comparaEvento(void *evento1, void *evento2){
   }
 }
 
-TChegada *criarChegada(int nItens,int tipoCliente,int tempoPag){
+TChegada *criarChegada(int nItens,int tipoChegada,int tempoPag){
   TChegada *c = malloc(sizeof(TChegada));
   c->nItens=nItens;
-  c->tipoCliente=tipoCliente;
+  c->tipoChegada=tipoChegada;
   c->tempoPag=tempoPag;
   return c;
 }
@@ -78,19 +73,19 @@ void imprimirEvento(void *e){
   printf("%c %lf",evento->tipo,evento->tempoDeInicio);
   if(evento->tipo == 'C'){
     TChegada *c = evento->carga;
-    printf(" %d %d %d\n",c->nItens,c->tipoCliente,c->tempoPag);
+    printf(" %d %d %d\n",c->nItens,c->tipoChegada,c->tempoPag);
   }
+}
+
+char tipoDeEvento(TEvento *e){
+  return e->tipo;
 }
 
 void imprimirAgenda(TAgenda *agenda){
   imprimirLSE(agenda->listaEventos,&imprimirEvento);
 }
 
-void imprimirChegada(void *c){
 
-}
 
-char tipoDeEvento(TEvento *e){
-  return e->tipo;
-}
+
 

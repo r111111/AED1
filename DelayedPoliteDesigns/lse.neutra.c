@@ -1,8 +1,4 @@
-#include "stdlib.h"
-#include "stdio.h"
 #include "lse.neutra.h"
-#include "agenda.h"
-#include "caixa.h"
 struct elemento{
   void *carga;
   struct elemento *prox;
