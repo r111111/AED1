@@ -9,11 +9,10 @@ void preencherAreaAtendimento(TAreaAtendimento *area){
   int *faVelha,*faAtual;
   int i;
   double tempoMedio,x,y,z;
-  printf("holy shit");
   scanf("%d",&qntPdvsVelha);
   faVelha = malloc(sizeof(int)*qntPdvsVelha);
   for(i=0;i<qntPdvsVelha;i++){
-    printf("\nLendo pdv %d",i);
+    printf("\nLendo pdv %d\n",i);
     scanf("%d",&faVelha[i]);
   }
   scanf("%d",&qntPdvsAtual);
@@ -37,25 +36,47 @@ void preencherAreaAtendimento(TAreaAtendimento *area){
 void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa){
   char tipo;
   int marcaDeTempo,ultimoCaixaLivre;
-  printf("LE\n");
   scanf(" %c",&tipo);
   while(tipo != 'F'){
     TEvento *evento;
     if(tipo == 'C'){
       int tempoDeChegada,tipoCliente,qntItens,tempoPagamento;
       scanf("%d%d%d%d",&tempoDeChegada,&qntItens,&tipoCliente,&tempoPagamento);
-      TChegada *c= criarChegada(qntItens, tipoCliente, tempoPagamento);
-      //passarTempo();
+      TChegada *c= criarChegada(qntItens, tipoCliente, tempoPagamento*caixaTempoMedio(caixa));
+
       evento = criarEvento(tempoDeChegada, tipo,c);
     }else if(tipo == 'S'){
       
-   }else{
-      printf("Tipo InvÃ¡lido");
+    }else{
+      printf("Tipo Inválido");
     }
   scanf(" %c",&tipo);
   }
-  imprimirAgenda(agenda);
+  proxPdvLivre(caixa);
 }
+
+void atender(TEvento *e,TAreaAtendimento *a){
+	TChegada *c = getCargaEvento(e);
+	TPdv *pdv = proxPdvLivre(a);
+	int *tempoAtendimento = getChegadatpag(c);
+	double *pdvTultimoatend = getPdvTempoUltimoAtendimento(pdv);
+	double tempoNaFila = (*tempoAtendimento - *pdvTultimoatend);
+	if(NULL){
+	}else{
+		setStatusPdv(pdv,0);
+		double *tmaximo = getPdvTmaximo(pdv);
+		double *ttotal = getPdvTtotal(pdv);
+		if(*tempoAtendimento > *tmaximo){
+			*tmaximo = *tempoAtendimento;
+		}
+		*ttotal += *tempoAtendimento;
+	}
+}
+
 int main() {
-  printf("aaa");
+	setvbuf(stdout, 0, _IONBF, 0);
+  TAgenda *agenda = criarAgenda(01,01,01);
+  TAreaAtendimento *areaAtendimento = criarAreaAtendimento();
+  preencherAreaAtendimento(areaAtendimento);
+  lerEventos(agenda,areaAtendimento);
 }

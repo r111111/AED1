@@ -15,3 +15,4 @@ void inserirOrdenadoLSE(TLista *lst, void *carganova,TComparador comparador);
 void imprimirElemento(TElemento *e);
 void imprimirLSE(TLista *lst,TImpressora impressora);
 void *temNaLista(TLista *lst,TCondicao cond);
+

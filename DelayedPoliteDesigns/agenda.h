@@ -15,6 +15,7 @@ void agendamento(TAgenda *a,void *evento);
 void imprimirAgenda(TAgenda *a);
 void imprimirChegada(void *chegada);
 void imprimirEvento(void *e);
-
 int comparaEvento(void *evento1, void *evento2);
-
+int *getChegadatpag(TChegada *c);
+double *getEventoMarcaTempo(TEvento *e);
+void *getCargaEvento(TEvento *e);

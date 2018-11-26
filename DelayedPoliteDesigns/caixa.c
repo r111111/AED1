@@ -1,8 +1,8 @@
 #include "caixa.h"
 
 struct pdv{
-  double tempoMedio,tempoMaximo;
-  int fa,id,livre;
+  double tempoMedio,tempoMaximo,tempoTotal,tempoUltimoAtendmiento;
+  int fa,id,livre,nClientes;
 };
 
 struct AreaAtendimento{
@@ -15,6 +15,8 @@ TPdv *criarPdv(int fa){
   pdv->tempoMaximo = pdv->tempoMedio = 0;
   pdv->livre = 1;
   pdv->fa = fa;
+  pdv->nClientes = 0;
+  pdv->tempoTotal = 0;
   return pdv;
 }
 
@@ -57,7 +59,39 @@ int pdvLivre(void *carga){
     return 0;
   }
 }
-
+//pdv->
 void* proxPdvLivre(TAreaAtendimento *caixa){
    return temNaLista(caixa->listaPdvs,&pdvLivre);
 }
+
+int caixaTempoMedio(TAreaAtendimento *a){
+	return a->tempoMedio;
+}
+
+int getPdvFa(TPdv *pdv){
+	return pdv->fa;
+}
+
+double *getPdvTmedio (TPdv *pdv){
+	return &pdv->tempoMedio;
+}
+
+double *getPdvTmaximo (TPdv *pdv){
+	return &pdv->tempoMaximo;
+}
+
+int *getPdvnclientes(TPdv *pdv){
+	return &pdv->nClientes;
+}
+
+double *getPdvTtotal(TPdv *pdv){
+	return &pdv->tempoTotal;
+}
+
+void setStatusPdv(TPdv *pdv,int i){
+	pdv->livre = i;
+}
+double *getPdvTempoUltimoAtendimento(TPdv *pdv){
+
+}
+

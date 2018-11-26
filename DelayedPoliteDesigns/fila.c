@@ -1,5 +1,5 @@
 #include "fila.h"
-#include "lse.neutra.h"
+
 #include "stdlib.h"
 struct fila{
   int tamanho;

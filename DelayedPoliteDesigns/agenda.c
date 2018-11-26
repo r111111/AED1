@@ -85,6 +85,18 @@ void imprimirAgenda(TAgenda *agenda){
   imprimirLSE(agenda->listaEventos,&imprimirEvento);
 }
 
+int *getChegadatpag(TChegada *c){
+	return &c->tempoPag;
+}
+
+double *getEventoMarcaTempo(TEvento *e){
+
+}
+
+void *getCargaEvento(TEvento *e){
+	return e->carga;
+}
+
 
 
 

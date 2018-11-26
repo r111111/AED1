@@ -132,7 +132,6 @@ void* temNaLista(TLista *lst,TCondicao cond){
   return caminhador->carga;
 }
 
-
 //fa das operadoras = fa*tempoMedio
 
 //tempo de atendimento = fa*qntProdutos + tempoPagamentoCliente
