@@ -1,28 +1,46 @@
 #include "caixa.h"
-
+#include "lse.neutra.h"
 struct pdv{
-  double tempoMedio,tempoMaximo,tempoTotal,tempoUltimoAtendmiento;
-  int fa,id,livre,nClientes;
+  double tempoMedio,tempoMaximo,tempoTotal,tempoUltimoAtendmiento,fa;
+  int id,livre,nClientes,suspensaoMarcada;
 };
 
 struct AreaAtendimento{
   TLista *listaPdvs;
   double tempoMedio,x,y,z;
+  double tempoAtual;
 };
 
-TPdv *criarPdv(int fa){
+struct cliente{
+	double tempoChegada,qntItens,tempoAtendimento;
+	double tipo;
+};
+
+TPdv *criarPdv(double fa){
   TPdv *pdv = malloc(sizeof(TPdv));
   pdv->tempoMaximo = pdv->tempoMedio = 0;
   pdv->livre = 1;
   pdv->fa = fa;
   pdv->nClientes = 0;
   pdv->tempoTotal = 0;
+  pdv->suspensaoMarcada=0;
+  pdv->tempoUltimoAtendmiento=0;
   return pdv;
+}
+
+TCliente *criarCliente(double tChegada,double qItens,double tAtendimento,double tipo){
+	TCliente *cl = malloc(sizeof(TCliente));
+	cl->tempoChegada = tChegada;
+	cl->qntItens = qItens;
+	cl->tempoAtendimento = tAtendimento;
+	cl->tipo = tipo;
+	return cl;
 }
 
 TAreaAtendimento *criarAreaAtendimento(){
   TAreaAtendimento *a = malloc(sizeof(TAreaAtendimento));
   a->listaPdvs = criarLista();
+  a->tempoAtual=0;
   return a;
 }
 
@@ -37,7 +55,7 @@ int qntPdvs(TAreaAtendimento *area){
 
 void imprimirPdv(void *carga){
   TPdv *pdv = carga;
-  printf("%d %lf %lf %d\n",pdv->id,pdv->tempoMedio,pdv->tempoMaximo,pdv->fa);
+  printf("%d tmmaximo:%lf fa:%lf livre:%d nClientes:%d\n",pdv->id,pdv->tempoMaximo,pdv->fa,pdv->livre,pdv->nClientes);
 }
 
 void imprimirPdvs(TAreaAtendimento *areaPdvs){
@@ -64,8 +82,17 @@ void* proxPdvLivre(TAreaAtendimento *caixa){
    return temNaLista(caixa->listaPdvs,&pdvLivre);
 }
 
+void setStatusPdv(TPdv *pdv,int i){
+	*(&pdv->livre) = i;
+
+}
+
 int caixaTempoMedio(TAreaAtendimento *a){
 	return a->tempoMedio;
+}
+
+void *getPdv(int id){
+	return NULL;
 }
 
 int getPdvFa(TPdv *pdv){
@@ -88,10 +115,54 @@ double *getPdvTtotal(TPdv *pdv){
 	return &pdv->tempoTotal;
 }
 
-void setStatusPdv(TPdv *pdv,int i){
-	pdv->livre = i;
-}
-double *getPdvTempoUltimoAtendimento(TPdv *pdv){
 
+double *getPdvTempoUltimoAtendimento(TPdv *pdv){
+	return &pdv->tempoUltimoAtendmiento;
 }
+
+int getPdvId(TPdv *pdv){
+	return pdv->id;
+}
+
+
+
+double *getTempoChegadaCliente(TCliente *cl){
+	return &cl->tipo;
+}
+
+double *getAreaAtendimentoTempoMedio(TAreaAtendimento *a){
+	return &a->tempoMedio;
+}
+
+void *encontrarpdv(TAreaAtendimento *area,int id){
+	printf("\nencontrarpdv");
+	return removerElemento(area->listaPdvs,id-1);
+}
+
+void printstatuspdv(TPdv *pdv){
+	printf("%d",pdv->livre);
+}
+
+void setSuspensao(void *pdv,int i){
+	TPdv *pdv1 = pdv;
+	*(&pdv1->suspensaoMarcada) = i;
+}
+
+int getPdvSuspensao(TPdv *pdv){
+	return pdv->suspensaoMarcada;
+}
+
+double *getTempoAtual(TAreaAtendimento *a){
+	return &a->tempoAtual;
+}
+double getAreax(TAreaAtendimento *a){
+	return a->x;
+}
+double getAreay(TAreaAtendimento *a){
+	return a->y;
+}
+double getAreaz(TAreaAtendimento *a){
+	return a->z;
+}
+
 

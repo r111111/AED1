@@ -1,14 +1,8 @@
 #include "lse.neutra.h"
-struct elemento{
-  void *carga;
-  struct elemento *prox;
-};
+#include "stdlib.h"
+#include "stdio.h"
 
-struct lista{
-  int tamanho;
-  TElemento *inicio;
-  TElemento *fim;
-};
+
 
 TLista *criarLista(){
   TLista *lst = malloc(sizeof(TLista));
@@ -46,7 +40,7 @@ void inserirInicioLSE(TLista *lst,void *carganova){
 }
 
 void *removerInicioLSE(TLista *lst){
-  void *carga= NULL;
+  void *carga = NULL;
   if(lst->inicio ==NULL){
     printf("Lista vazia\n");
   }else{
@@ -58,28 +52,41 @@ void *removerInicioLSE(TLista *lst){
     lst->inicio = prim->prox; 
     free(prim);
   }
+  lst->tamanho--;
   return carga;
 }
 
+// ERRRRRRO
+void *getInicioLSE(TLista *lst){
+	return lst->inicio;
+}
 void *removerElemento(TLista *lst,int posicao){
-  void *carga ;
+  void *carga = NULL ;
+  printf("\nposicao do pdv: %d",posicao);
   if(posicao > lst->tamanho-1){
     carga = NULL;
-    printf("Lista Vazia");
+    printf("Lista Vazia removerElemento, tamanho da lista: %d,posicao = %d",lst->tamanho,posicao);
   }else if(posicao == 0){
-    carga = removerInicioLSE(lst);
+    return lst->inicio->carga;
   }else{
+	  printf("\nposicao do pdv: %d,tamanho da lista: %d",posicao,lst->tamanho);
      int i;
     TElemento *anterior = lst->inicio;
-    TElemento *walker = anterior->prox;
+    TElemento *walker = lst->inicio->prox;
+    if(lst->inicio->prox==NULL){
+       	printf("walker NULLLL");
+       }
     for(i=1;i<posicao;i++){
+    	printf("aklfjaçsld");
      anterior = anterior->prox;
       walker = walker->prox;
     } 
     carga = walker->carga;  
-    anterior->prox = walker->prox;
-    free(walker);
   }
+  if(carga==NULL){
+	printf("pdv NULLLLL");
+  };
+  printf("\nposicao do pdv: %d",posicao);
   return carga;
 }
 
@@ -88,21 +95,34 @@ int tamanhoLista(TLista *lst){
 }
 
 void inserirOrdenadoLSE(TLista *lst, void *carganova, TComparador compara){
-  
     void *novacarga = carganova;
+    TElemento *novoElemOrdenado = malloc(sizeof(TElemento));
     if(lst->inicio == NULL){
       inserirFinalLSE(lst, carganova);
     }else{
-      TElemento *walker = lst->inicio->prox;
       TElemento *anterior = lst->inicio;
-      while(walker !=NULL && compara(walker->carga,novacarga)==-1){
-        walker = walker->prox;
-        anterior = anterior->prox;
-      }
-      TElemento *novoElemOrdenado = malloc(sizeof(TElemento));
-      novoElemOrdenado->carga = novacarga;
-      anterior->prox = novoElemOrdenado; 
-      novoElemOrdenado->prox = walker;
+      TElemento *walker = lst->inicio->prox;
+      if(walker == NULL){
+    	  if(compara(novacarga,anterior->carga)>=0){
+    		  inserirFinalLSE(lst,novacarga);
+    	  }else{
+   		  	  inserirInicioLSE(lst,novacarga);
+      	  }
+      }else{
+    	  while(walker !=NULL && compara(novacarga,walker->carga)>0){
+    	        walker = walker->prox;
+    	        anterior = anterior->prox;
+    	   }
+    	  	 novoElemOrdenado->carga = novacarga;
+    	     if(walker== NULL){
+    	     	 inserirFinalLSE(lst, novacarga);
+    	     }else{
+    	    		 anterior->prox = novoElemOrdenado;
+    	    		 novoElemOrdenado->prox = walker;
+    	     }
+    }
+
+     lst->tamanho++;
     }
 }
 
@@ -123,15 +143,29 @@ void* temNaLista(TLista *lst,TCondicao cond){
   TElemento *caminhador = lst->inicio;
     while(caminhador!=NULL){
       if(cond(caminhador->carga)){
-       break;
+       return caminhador->carga;
       }else{
         caminhador=caminhador->prox;
         i++;
       }
     }
-  return caminhador->carga;
+    if(caminhador == NULL){
+    	printf("\nproxPdvLivre devia ser igual a null\n");
+    }
+  return caminhador;
 }
 
+TElemento *proxElemento(TElemento *e){
+	return e->prox;
+}
+
+int listaVazia(TLista *lst){
+	if(lst->inicio == NULL){
+		return 1;
+	}else{
+		return 0;
+	}
+}
 //fa das operadoras = fa*tempoMedio
 
 //tempo de atendimento = fa*qntProdutos + tempoPagamentoCliente
