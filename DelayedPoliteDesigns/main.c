@@ -25,7 +25,7 @@ void executarEvento(TAgenda *agenda,TEvento *evento,TAreaAtendimento *area,TFila
 		TChegada *c = getCargaEvento(evento);
 		printf("///////////////////////////////////////////////////////////////////\n");
 		printf("\n Dentro de executar evento chegada");
-		printf("\nIMPRESS√O DA LISTA DE PDVS nnnn para cada evento exeutado\n");
+		printf("\nIMPRESS√ÉO DA LISTA DE PDVS nnnn para cada evento exeutado\n");
 		imprimirPdvs(area);
 		TPdv *pdv = proxPdvLivre(area);
 		double tempoAtendimento = *(getChegadatpag(c))*(*getnIntensCliente(c))+getPdvFa(pdv);
@@ -33,7 +33,7 @@ void executarEvento(TAgenda *agenda,TEvento *evento,TAreaAtendimento *area,TFila
 		double *pdvTultimoatend = getPdvTempoUltimoAtendimento(pdv);
 		double tempoNaFila;
 		if(*pdvTultimoatend==0 || listaVazia(getAgendaListaEventos(agenda))){
-			printf("\nTempo na fila È 0");
+			printf("\nTempo na fila √© 0");
 			tempoNaFila =0;
 		}else{
 			tempoNaFila = *(pdvTultimoatend) - *(getEventoMarcaTempo(evento));
@@ -59,10 +59,10 @@ void executarEvento(TAgenda *agenda,TEvento *evento,TAreaAtendimento *area,TFila
 			}
 			*ttotal += tempoAtendimento;
 			*pdvTultimoatend = (*getEventoMarcaTempo(evento))+tempoAtendimento;
-			////Cliente permanece ou n„o pro atendimento
+			////Cliente permanece ou n√£o pro atendimento
 			*getPdvnclientes(pdv)+=1;
 		}else{
-			printf("cliente n„o atendido");
+			printf("cliente n√£o atendido");
 		}
 	}else if(getEventoTipo(evento)=='X'){//evento de finalizacao de atendimento{
 		TFimAtendimento *finalAtendimento = getCargaEvento(evento);
@@ -147,13 +147,13 @@ void avancarAgenda(TAgenda *agenda,double novoTempo,TAreaAtendimento *area,TFila
 				tempoEvento = *getEventoMarcaTempo(evento);
 			}
 			printf("///////////////////////////////////////////////////////////////////\n");
-			printf("\nAvanÁando agenda, N√O ESVAZIANDO:");
-			printf("\nIMPRESS√O DA AGENDA\n");
+			printf("\nAvan√ßando agenda, N√ÉO ESVAZIANDO:");
+			printf("\nIMPRESS√ÉO DA AGENDA\n");
 			    imprimirAgenda(agenda);
-			    printf("\nIMPRESS√O DA FILA DE CLIENTES\n");
+			    printf("\nIMPRESS√ÉO DA FILA DE CLIENTES\n");
 			    TLista *listaa = getFilaLista(filaClientes);
 			    imprimirLSE(listaa,&imprimirEvento);
-			    printf("\nIMPRESS√O DA LISTA DE PDVS nnnn para cada evento exeutado\n");
+			    printf("\nIMPRESS√ÉO DA LISTA DE PDVS nnnn para cada evento exeutado\n");
 			    imprimirPdvs(area);
 			    printf("\n///////////////////////////////////////////////////////////////////");
 		}
@@ -168,18 +168,18 @@ void preencherAreaAtendimento(TAreaAtendimento *area){
   int *faVelha,*faAtual;
   int i;
   double tempoMedio,x,y,z;
-  scanf("%d",&qntPdvsVelha);
+  fscanf(arquivo,"%d",&qntPdvsVelha);
   faVelha = malloc(sizeof(int)*qntPdvsVelha);
   for(i=0;i<qntPdvsVelha;i++){
     printf("\nLendo pdv %d\n",i);
-    scanf("%d",&faVelha[i]);
+    fscanf(arquivo,"%d",&faVelha[i]);
   }
-  scanf("%d",&qntPdvsAtual);
+  fscanf(arquivo,"%d",&qntPdvsAtual);
   faAtual = malloc(sizeof(int)*qntPdvsAtual);
   for(i=0;i<qntPdvsAtual;i++){
-    scanf("%d",&faAtual[i]);
+    fscanf(arquivo,"%d",&faAtual[i]);
   }
-  scanf("%lf%lf%lf%lf",&tempoMedio,&x,&y,&z);
+  fscanf(arquivo,"%lf%lf%lf%lf",&tempoMedio,&x,&y,&z);
   for(i=0;i<qntPdvsVelha;i++){
     TPdv *pdv = criarPdv(tempoMedio*faVelha[i]/10.0);
     inserirPdv(area, pdv);
@@ -194,13 +194,13 @@ void preencherAreaAtendimento(TAreaAtendimento *area){
 
 void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa,TFila *filaClientes){
   char tipo;
-  scanf(" %c",&tipo);
+  fscanf(arquivo," %c",&tipo);
   while(tipo != 'F'){
     TEvento *eventoNovaChegada;
     if(tipo == 'C'){
     	printf("\nLendo Chegada\n");
       double tempoDeChegada,tipoCliente,qntItens,tempoPagamento;
-      scanf("%lf%lf%lf%lf",&tempoDeChegada,&qntItens,&tipoCliente,&tempoPagamento);
+      fscanf(arquivo,"%lf%lf%lf%lf",&tempoDeChegada,&qntItens,&tipoCliente,&tempoPagamento);
       *(getTempoAtual(caixa))= tempoDeChegada;
       printf("\nTEMPO ATUAL E TEMPO DE CHEGADA : %lf",*getTempoAtual(caixa));
       avancarAgenda(agenda,tempoDeChegada,caixa,filaClientes);
@@ -222,7 +222,7 @@ void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa,TFila *filaClientes){
     	double tempoInicio,durMin;
     	TEvento *eventoSuspensao;
     	TSuspensao *s;
-    	scanf("%lf%d%lf",&tempoInicio,&idPdv,&durMin);
+    	fscanf(arquivo,"%lf%d%lf",&tempoInicio,&idPdv,&durMin);
     	avancarAgenda(agenda,tempoInicio,caixa,filaClientes);
     	printf("tempoatual: %lf",tempoInicio);
     	*(getTempoAtual(caixa))= tempoInicio;
@@ -233,22 +233,22 @@ void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa,TFila *filaClientes){
 
     	executarEvento(agenda, eventoSuspensao, caixa, filaClientes);
     }else{
-      printf("Tipo Inv·lido");
+      printf("Tipo Inv√°lido");
     }
-  scanf(" %c",&tipo);
+  fscanf(arquivo," %c",&tipo);
   }
   printf("///////////////////////////////////////////////////////////////////");
   printf("\n\n\nESCAZIAR AGENDA E IMPRIMIR FINAL\n");
   avancarAgenda(agenda, -1, caixa, filaClientes);
   printf("\nTEMPO ATUAL : %lf",*getTempoAtual(caixa));
-  printf("\nIMPRESS√O DA AGENDA\n");
+  printf("\nIMPRESS√ÉO DA AGENDA\n");
   imprimirAgenda(agenda);
-  printf("\nIMPRESS√O DA FILA DE CLIENTES\n");
+  printf("\nIMPRESS√ÉO DA FILA DE CLIENTES\n");
   while(!filaVazia(filaClientes)){
 	  TEvento *eventoCliente = desenfileirar(filaClientes);
 	  imprimirEvento(eventoCliente);
   }
-  printf("\nIMPRESS√O DA LISTA DE PDVS nnnn\n");
+  printf("\nIMPRESS√ÉO DA LISTA DE PDVS nnnn\n");
   imprimirPdvs(caixa);
   printf("///////////////////////////////////////////////////////////////////");
 }
@@ -256,6 +256,10 @@ void lerEventos(TAgenda *agenda,TAreaAtendimento *caixa,TFila *filaClientes){
 
 
 int main() {
+	FILE *arquivo;
+
+	arquivo= fopen("text.txt","rt");
+
 	setvbuf(stdout, 0, _IONBF, 0);
   TAgenda *agenda = criarAgenda(01,01,01);
   TAreaAtendimento *areaAtendimento = criarAreaAtendimento();
@@ -263,5 +267,7 @@ int main() {
   preencherAreaAtendimento(areaAtendimento);
   lerEventos(agenda,areaAtendimento, filaClientes);
   printf("%lf",17.5+1);
+
+  fclose(arquivo);
   return 0;
 }
